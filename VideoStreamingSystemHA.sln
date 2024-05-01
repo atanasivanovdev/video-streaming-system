@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Middleware", "Middleware\Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{969E71CA-DA5F-431E-A24B-97009EFD19EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCatalogService", "VideoCatalogService\VideoCatalogService.csproj", "{A465281B-10D6-4312-88C1-DA8A8A7E4583}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayAPI", "GatewayAPI\GatewayAPI.csproj", "{13262DD9-3E41-456C-BC4D-ED475FCFE040}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{969E71CA-DA5F-431E-A24B-97009EFD19EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{969E71CA-DA5F-431E-A24B-97009EFD19EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{969E71CA-DA5F-431E-A24B-97009EFD19EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A465281B-10D6-4312-88C1-DA8A8A7E4583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A465281B-10D6-4312-88C1-DA8A8A7E4583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A465281B-10D6-4312-88C1-DA8A8A7E4583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A465281B-10D6-4312-88C1-DA8A8A7E4583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13262DD9-3E41-456C-BC4D-ED475FCFE040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13262DD9-3E41-456C-BC4D-ED475FCFE040}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13262DD9-3E41-456C-BC4D-ED475FCFE040}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13262DD9-3E41-456C-BC4D-ED475FCFE040}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
