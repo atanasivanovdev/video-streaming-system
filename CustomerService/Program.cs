@@ -1,5 +1,17 @@
+using CustomerService.Models;
+using CustomerService.Services;
+using Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<DatabaseSettings>(
+    builder.Configuration.GetSection("Database"));
+
+builder.Services.AddJwt(builder.Configuration);
+
+builder.Services.AddTransient<IEncryptor, Encryptor>();
+
+builder.Services.AddSingleton<UserService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -15,6 +27,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(policy => policy.WithOrigins("http://localhost:5162", "https://localhost:7297")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+);
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
