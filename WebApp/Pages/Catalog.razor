@@ -1,0 +1,54 @@
+﻿@page "/catalog"
+@inherits VideoCatalogBase
+
+<h3 class="text-center">Video Catalog</h3>
+
+@if(Genres != null)
+{
+    if (Genres.Successful)
+    {
+        <div class="d-flex flex-column justify-content-center">
+            <div class="mb-3 d-flex justify-content-center">
+                <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked @onclick='() => OnTypeChange("movie")'>
+                <label class="btn btn-outline-primary me-2" for="option1">Movies</label>
+
+                <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" @onclick='() => OnTypeChange("tvSeries")'>
+                <label class="btn btn-outline-primary" for="option2">TV Shows</label>
+            </div>
+
+            <select class="form-select form-select-md mb-3 w-50 m-auto" @onchange="OnGenreChange">
+                <option selected>Select Genre</option>
+                @foreach (var genre in Genres.Genres)
+                {
+                    <option value=@genre>@genre</option>
+                }
+            </select>
+        </div>
+        if(VideoCatalog != null)
+        {
+            <div class="d-flex justify-content-center flex-wrap g-4">
+                @foreach (var video in VideoCatalog.VideoCatalog)
+                {
+                    <div class="card m-3" style="width: 250px;">
+                        <img src="@(!string.IsNullOrWhiteSpace(video.ImageURL) ? video.ImageURL : GetImagePath())" class="card-img-top" alt="Video thumbnail" style="width: 250px; height: 250px;">
+                        <div class="card-body">
+                            <h5 class="card-title">@video.Title</h5>
+                            <p class="card-text">Release Year: @video.ReleaseYear</p>
+                            <a href="#" class="btn btn-success">Buy</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            <p>@Genres.Error</p>
+        </div>
+    }
+
+} else
+{
+    <p>Loading genres...</p>
+}

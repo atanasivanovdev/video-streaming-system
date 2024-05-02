@@ -16,7 +16,7 @@ namespace VideoCatalogService.Controllers
 		}
 
 
-		// GET: api/Video/Genres
+		// GET: api/Video/genres
 		[HttpGet("genres")]
 		public async Task<ActionResult<List<string>>> GetGenres()
 		{
