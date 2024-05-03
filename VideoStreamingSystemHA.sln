@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerService", "Customer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Middleware", "Middleware\Middleware.csproj", "{7D7F0465-7E21-4AB3-9C84-C442D7CBBF37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{969E71CA-DA5F-431E-A24B-97009EFD19EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csproj", "{969E71CA-DA5F-431E-A24B-97009EFD19EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoCatalogService", "VideoCatalogService\VideoCatalogService.csproj", "{A465281B-10D6-4312-88C1-DA8A8A7E4583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoCatalogService", "VideoCatalogService\VideoCatalogService.csproj", "{A465281B-10D6-4312-88C1-DA8A8A7E4583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayAPI", "GatewayAPI\GatewayAPI.csproj", "{13262DD9-3E41-456C-BC4D-ED475FCFE040}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GatewayAPI", "GatewayAPI\GatewayAPI.csproj", "{13262DD9-3E41-456C-BC4D-ED475FCFE040}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WatchlistService", "WatchlistService\WatchlistService.csproj", "{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{13262DD9-3E41-456C-BC4D-ED475FCFE040}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13262DD9-3E41-456C-BC4D-ED475FCFE040}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13262DD9-3E41-456C-BC4D-ED475FCFE040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

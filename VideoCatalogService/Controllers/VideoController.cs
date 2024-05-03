@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
+using VideoCatalogService.Models;
 using VideoCatalogService.Services;
 
 namespace VideoCatalogService.Controllers
@@ -32,7 +33,7 @@ namespace VideoCatalogService.Controllers
 
 		// GET: api/Video/titles
 		[HttpGet("titles")]
-		public async Task<ActionResult<List<string>>> GetTitles([FromQuery] string titleType, [FromQuery] string genre)
+		public async Task<ActionResult<List<Video>>> GetTitles([FromQuery] string titleType, [FromQuery] string genre)
 		{
 			if (string.IsNullOrEmpty(titleType) || string.IsNullOrEmpty(genre))
 			{
@@ -48,6 +49,19 @@ namespace VideoCatalogService.Controllers
 
 			return Ok(titles);
 		}
-	}
+
+        [HttpGet("titles/{titleId}")]
+        public async Task<ActionResult<Video>> GetTitle(string titleId)
+        {
+            var video = await _videoService.GetTitle(titleId);
+
+            if (video == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(video);
+        }
+    }
 		
 }

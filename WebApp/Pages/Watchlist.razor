@@ -1,0 +1,40 @@
+﻿@page "/watchlist"
+@inherits WatchlistBase
+
+<h3 class="text-center mb-4">Watchlist</h3>
+
+@if(Watchlist != null)
+{
+    <div class="d-flex flex-column">
+        @foreach (var video in Watchlist.Watchlist)
+        {
+            <div class="card mb-3 mx-auto">
+                <div class="row g-0">
+                    <div class="col-md-4 d-none d-md-block">
+                        <img src="@(!string.IsNullOrWhiteSpace(video.ImageURL) ? video.ImageURL : GetImagePath())" class="img-fluid rounded-start" style="width: 150px; height: 200px;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body d-flex flex-column justify-content-between" style="width: 280px; height: 200px">
+                            <h5 class="card-title">@video.Title</h5>
+                            <p class="card-text d-flex flex-column">
+                                <span><b>Release Year:</b> @video.ReleaseYear</span>
+                                <span><b>Price:</b> 10 €</span>
+                            </p>
+                            <div class="d-flex justify-content-start">
+                                <button type="button" class="btn btn-success me-2">Buy</button>
+                                <button type="button" class="btn btn-danger" @onclick='() => OnRemoveVideo(video.Id)'>Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" style="width: 50px; height: 50px;" role="status" />
+    </div>
+}
+

@@ -86,5 +86,29 @@ namespace CustomerService.Controllers
 
             return Ok(userId);
         }
+
+        [HttpGet("id")]
+        public ActionResult GetUserId()
+        {
+
+            if (!HttpContext.Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
+            {
+                return BadRequest("Authorization header is missing.");
+            }
+
+            var token = authorizationHeader.ToString().Split(' ').Last();
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest("Token is not provided.");
+            }
+
+            var userId = _jwtBuilder.ValidateToken(token);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("Token is not valid");
+            }
+
+            return Ok(userId);
+        }
     }
 }

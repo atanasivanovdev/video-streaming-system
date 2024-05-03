@@ -4,6 +4,7 @@ using RestSharp;
 using System.Text.Json;
 using VideoCatalogService.Models;
 using System;
+using System.Net.Http.Json;
 
 namespace VideoCatalogService.Services
 {
@@ -62,39 +63,68 @@ namespace VideoCatalogService.Services
 			return videos;
 		}
 
-		private List<Video> ParseVideosFromJson(string jsonContent)
+        public async Task<Video> GetTitle(string titleId)
+        {
+            var request = new RestRequest($"titles/{titleId}", Method.Get);
+
+            var response = await _client.GetAsync(request);
+
+            if (!response.IsSuccessful)
+            {
+                return null!;
+            }
+
+            var jsonObject = JsonConvert.DeserializeObject<JObject>(response.Content);
+            var resultsElement = jsonObject["results"];
+            var video = ParseVideo(resultsElement);
+            return video;
+        }
+
+        private List<Video> ParseVideosFromJson(string jsonContent)
 		{
-			var jsonObject = JsonConvert.DeserializeObject<JObject>(jsonContent);
-			var elements = jsonObject["results"];
-			if (elements == null) return new List<Video>();
+            var jsonObject = JsonConvert.DeserializeObject<JObject>(jsonContent);
 
-			List<Video> videos = new List<Video>();
+            // Check if the JSON is for a single video or multiple videos
+            var resultsElement = jsonObject["results"];
+            JToken elements = resultsElement;
 
-			foreach (JToken element in elements)
-			{
-				var id = (string)element["id"];
-				var title = element["titleText"].HasValues ? (string)element["titleText"]["text"] : "";
-				var imageUrl = element["primaryImage"].HasValues ? (string)element["primaryImage"]["url"] : "";
-				var releaseYear = element["releaseYear"].HasValues ? (int)element["releaseYear"]["year"] : 0; 
+            List<Video> videos = new List<Video>();
 
-				if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(title))
-				{
-					continue;
-				}
+            if (elements is JArray) // Multiple videos
+            {
+                foreach (JToken element in elements)
+                {
+                    Video video = ParseVideo(element);
+                    if (video != null)
+                    {
+                        videos.Add(video);
+                    }
+                }
+            }
 
-				Video video = new Video
-				{
-					Id = id,
-					Title = title,
-					ImageURL = imageUrl ?? string.Empty,
-					ReleaseYear = releaseYear
-				};
-
-				videos.Add(video);
-			}
-
-			return videos;
+            return videos;
 		}
 
-	}
+        private Video ParseVideo(JToken element)
+        {
+            if (element == null || element.Type == JTokenType.Null || element.Type == JTokenType.None)
+            {
+                return null!;
+            }
+
+            var id = (string)element["id"];
+            var title = element["titleText"].HasValues ? (string)element["titleText"]["text"] : "";
+            var imageUrl = element["primaryImage"].HasValues ? (string)element["primaryImage"]["url"] : "";
+            var releaseYear = element["releaseYear"].HasValues ? (int)element["releaseYear"]["year"] : 0;
+
+            return new Video
+            {
+                Id = id,
+                Title = title,
+                ImageURL = imageUrl ?? string.Empty,
+                ReleaseYear = releaseYear
+            };
+        }
+
+    }
 }

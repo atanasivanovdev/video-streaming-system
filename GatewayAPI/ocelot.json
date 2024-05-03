@@ -17,13 +17,25 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/user/{everything}",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": [ "Post", "Get" ],
       "DownstreamPathTemplate": "/api/user/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 5208
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/watchlist/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Get", "Delete" ],
+      "DownstreamPathTemplate": "/api/watchlist/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5173
         }
       ]
     }
