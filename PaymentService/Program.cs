@@ -1,5 +1,5 @@
-using WatchlistService.Models;
-using WatchlistService.Services;
+using PaymentService.Models;
+using PaymentService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("Database"));
 
-builder.Services.AddSingleton<UserWatchlistService>();
+builder.Services.AddSingleton<PaymentOrderService>();
+builder.Services.AddSingleton<PubSubService>();
+
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", builder.Configuration["Authentication:Google:CredentialsFilePath"]);
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

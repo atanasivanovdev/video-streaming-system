@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System.Collections;
 using WebApp.Models;
 using WebApp.Services;
 
@@ -27,6 +28,10 @@ namespace WebApp.Pages
         public VideoCatalogResult VideoCatalog { get; set; }
         public WatchlistResult Watchlist { get; set; } = new WatchlistResult();
         public GenresResult Genres { get; set; }
+
+        public string selectedTitleId;
+
+        public double selectedPrice;
 
         protected override async Task OnInitializedAsync()
         {
@@ -78,6 +83,12 @@ namespace WebApp.Pages
         {
             string webRootPath = Environment.BaseAddress;
             return Path.Combine(webRootPath, "no-image.jpg");
+        }
+
+        public void SelectVideoForPayment(string titleId, double price)
+        {
+            selectedTitleId = titleId;
+            selectedPrice = price;
         }
     }
 }

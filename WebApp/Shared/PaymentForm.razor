@@ -1,0 +1,58 @@
+﻿@inherits PaymentBase;
+@using WebApp.Models;
+
+<div class="modal fade" id="paymentForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center mb-2">
+                    <img src="@(GetImagePath())" style="width: 150px;">
+                </div>
+                <EditForm Model="paymentModel" OnValidSubmit="HandleRegistration">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @errorMessage
+                        </div>
+                    }
+
+                    <div class="form-group mb-2">
+                        <label for="cardNumber">Card number</label>
+                        <InputText Id="cardNumber" Class="form-control" @bind-Value="paymentModel.CardNumber" />
+                        <ValidationMessage For="@(() => paymentModel.CardNumber)" />
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <div class="col-sm">
+                            <label for="expirationDate">Expiration Date</label>
+                            <InputText Id="expirationDate" Class="form-control" @bind-Value="paymentModel.ExpirationDate" />
+                            <ValidationMessage For="@(() => paymentModel.ExpirationDate)" />
+                        </div>
+                        <div class="col-sm">
+                            <label for="cvc">CVC</label>
+                            <InputText Id="cvc" Class="form-control" @bind-Value="paymentModel.CVC"/>
+                            <ValidationMessage For="@(() => paymentModel.CVC)" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm mb-3">
+                        <label for="price">Price</label>
+                        <InputText Id="price" Class="form-control" @bind-Value="@amountString" disabled />
+                        <ValidationMessage For="@(() => paymentModel.Amount)" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Pay Now</button>
+				</EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

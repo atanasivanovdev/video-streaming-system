@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GatewayAPI", "GatewayAPI\Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WatchlistService", "WatchlistService\WatchlistService.csproj", "{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService", "PaymentService\PaymentService.csproj", "{2710D5E3-24A7-4F81-97B1-D89477E3805B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED25B0F0-BB82-4B5C-AA14-D33599FA60B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2710D5E3-24A7-4F81-97B1-D89477E3805B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2710D5E3-24A7-4F81-97B1-D89477E3805B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2710D5E3-24A7-4F81-97B1-D89477E3805B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2710D5E3-24A7-4F81-97B1-D89477E3805B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

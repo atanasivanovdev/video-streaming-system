@@ -2,11 +2,8 @@
 
 namespace WebApp.Models
 {
-	public class VideoCatalogResult
+	public class VideoCatalogResult : ResultBase
 	{
-		public bool Successful { get; set; }
-		public string Error { get; set; }
-
 		public List<Video> VideoCatalog { get; set; }
 	}
 }

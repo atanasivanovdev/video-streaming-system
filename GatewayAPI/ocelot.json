@@ -38,6 +38,18 @@
           "Port": 5173
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/payment/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Get" ],
+      "DownstreamPathTemplate": "/api/payment/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5193
+        }
+      ]
     }
   ]
 }

@@ -18,10 +18,10 @@
                             <h5 class="card-title">@video.Title</h5>
                             <p class="card-text d-flex flex-column">
                                 <span><b>Release Year:</b> @video.ReleaseYear</span>
-                                <span><b>Price:</b> 10 €</span>
+                                <span><b>Price:</b> @video.Price €</span>
                             </p>
                             <div class="d-flex justify-content-start">
-                                <button type="button" class="btn btn-success me-2">Buy</button>
+                                <button type="button" class="btn btn-success me-2" @onclick="() => SelectVideoForPayment(video.Id, video.Price)" data-bs-target="#paymentForm" data-bs-toggle="modal">Buy</button>
                                 <button type="button" class="btn btn-danger" @onclick='() => OnRemoveVideo(video.Id)'>Remove</button>
                             </div>
                         </div>
@@ -30,6 +30,7 @@
             </div>
         }
     </div>
+    <PaymentForm TitleId="@selectedTitleId" Price="@selectedPrice" />
 }
 else
 {

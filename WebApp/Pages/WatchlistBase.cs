@@ -18,8 +18,10 @@ namespace WebApp.Pages
 
         public WatchlistResult Watchlist { get; set; }
         private string userId = "";
+		public string selectedTitleId;
+		public double selectedPrice;
 
-        protected override async Task OnInitializedAsync()
+		protected override async Task OnInitializedAsync()
         {
             UserIdResult userIdResult = await AuthService.GetUserId();
             if (!userIdResult.Successful) return;
@@ -43,5 +45,11 @@ namespace WebApp.Pages
             Watchlist = await WatchlistService.GetTitleFromWatchlist(userId);
             StateHasChanged();
         }
-    }
+
+		public void SelectVideoForPayment(string titleId, double price)
+		{
+			selectedTitleId = titleId;
+			selectedPrice = price;
+		}
+	}
 }

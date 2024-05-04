@@ -1,10 +1,7 @@
 ﻿namespace WebApp.Models
 {
-    public class WatchlistResult
+    public class WatchlistResult : ResultBase
     {
-        public bool Successful { get; set; }
-        public string Error { get; set; }
-
         public List<Video> Watchlist { get; set; }
     }
 }

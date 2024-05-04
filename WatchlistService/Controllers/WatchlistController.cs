@@ -20,28 +20,50 @@ namespace WatchlistService.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddToWatchlist([FromBody] WatchlistDTO watchlist)
         {
-            await _watchlistService.AddTitleToWatchlist(watchlist.UserId, watchlist.TitleId);
-            return Ok(watchlist.TitleId);
+            try
+            {
+                await _watchlistService.AddTitleToWatchlist(watchlist.UserId, watchlist.TitleId);
+                return Ok(watchlist.TitleId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // GET api/watchlist/{userId}
         [HttpGet("{userId}")]
         public async Task<ActionResult<List<string>>> GetWatchlist(string userId)
         {
-            var titles = await _watchlistService.GetTitlesFromWatchlist(userId);
-            if (titles == null || titles.Count == 0)
-                return NotFound("Watchlist is empty.");
+            try
+            {
+                var titles = await _watchlistService.GetTitlesFromWatchlist(userId);
+                if (titles == null || titles.Count == 0)
+                {
+                    return NotFound("Watchlist is empty.");
+                }
 
-            return Ok(titles);
+                return Ok(titles);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
-        // DELETE api/watchlist/remove
-        [HttpDelete("remove")]
+        // DELETE api/watchlist/remove/{userId}/{titleId}
         [HttpDelete("remove/{userId}/{titleId}")]
         public async Task<IActionResult> RemoveFromWatchlist(string userId, string titleId)
         {
-            await _watchlistService.RemoveTitleFromWatchlist(userId, titleId);
-            return Ok(titleId);
+            try
+            {
+                await _watchlistService.RemoveTitleFromWatchlist(userId, titleId);
+                return Ok(titleId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

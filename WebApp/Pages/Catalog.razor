@@ -37,12 +37,14 @@
                                 <span class="d-inline-block"><b>Release Year:</b> @video.ReleaseYear</span>
                                 <span class="d-inline-block"><b>Price:</b> 10 €</span>
                             </p>
-                            <button type="button" class="btn btn-success">Buy</button>
+                            <button type="button" class="btn btn-success me-2" @onclick="() => SelectVideoForPayment(video.Id, video.Price)" data-bs-target="#paymentForm" data-bs-toggle="modal">Buy</button>
                             <button type="button" class="btn btn-warning" disabled="@isAddedToWatchlist(video.Id)" @onclick='() => OnAddToWatchlist(video.Id)'>Add Watchlist</button>
                         </div>
                     </div>
                 }
             </div>
+
+            <PaymentForm TitleId="@selectedTitleId" Price="@selectedPrice" />
         }
     }
     else

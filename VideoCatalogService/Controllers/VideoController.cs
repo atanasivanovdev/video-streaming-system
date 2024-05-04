@@ -21,46 +21,67 @@ namespace VideoCatalogService.Controllers
 		[HttpGet("genres")]
 		public async Task<ActionResult<List<string>>> GetGenres()
 		{
-			var genres = await _videoService.GetGenres();
+            try
+            {
+                var genres = await _videoService.GetGenres();
 
-			if (genres == null || !genres.Any())
-			{
-				return NotFound("No genres found.");
-			}
+                if (genres == null || !genres.Any())
+                {
+                    return NotFound("No genres found.");
+                }
 
-			return Ok(genres);
-		}
+                return Ok(genres);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
 		// GET: api/Video/titles
 		[HttpGet("titles")]
 		public async Task<ActionResult<List<Video>>> GetTitles([FromQuery] string titleType, [FromQuery] string genre)
 		{
-			if (string.IsNullOrEmpty(titleType) || string.IsNullOrEmpty(genre))
-			{
-				return BadRequest("Type or Genre parameter is missing.");
-			}
+            try
+            {
+                if (string.IsNullOrEmpty(titleType) || string.IsNullOrEmpty(genre))
+                {
+                    return BadRequest("Type or Genre parameter is missing.");
+                }
 
-			var titles = await _videoService.GetTitles(titleType, genre);
+                var titles = await _videoService.GetTitles(titleType, genre);
 
-			if (titles == null || !titles.Any())
-			{
-				return NotFound("No genres found.");
-			}
+                if (titles == null || !titles.Any())
+                {
+                    return NotFound("No titles found.");
+                }
 
-			return Ok(titles);
-		}
+                return Ok(titles);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         [HttpGet("titles/{titleId}")]
         public async Task<ActionResult<Video>> GetTitle(string titleId)
         {
-            var video = await _videoService.GetTitle(titleId);
-
-            if (video == null)
+            try
             {
-                return NotFound();
-            }
+                var video = await _videoService.GetTitle(titleId);
 
-            return Ok(video);
+                if (video == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(video);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 		
