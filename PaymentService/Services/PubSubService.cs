@@ -13,21 +13,18 @@ namespace PaymentService.Services
             _topicId = configuration["Authentication:Google:TopicId"];
             _projectId = configuration["Authentication:Google:ProjectId"];
         }
-        public async Task PublishPostAsync(string userId, string titleId, string paymentId)
+        public async Task PublishPostAsync(string paymentId)
         {
             TopicName topicName = TopicName.FromProjectTopic(_projectId, _topicId);
             PublisherClient publisher = await PublisherClient.CreateAsync(topicName);
 
             try
             {
-
                 PubsubMessage message = new PubsubMessage
                 {
                     Data = ByteString.CopyFromUtf8("The payment has been successful!"),
                     Attributes =
                     {
-                        { "PostId", userId },
-                        { "TitleId", titleId },
                         { "PaymentId", paymentId }
                     }
                 };

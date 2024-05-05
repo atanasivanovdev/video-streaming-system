@@ -50,6 +50,18 @@
           "Port": 5193
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/order/{everything}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/order/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5299
+        }
+      ]
     }
   ]
 }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using PaymentService.Models;
-using Google.Cloud.PubSub.V1;
-using Google.Protobuf;
 
 namespace PaymentService.Services
 {
@@ -35,11 +33,11 @@ namespace PaymentService.Services
             payment.UserId = paymentDTO.UserId;
             payment.CVC = paymentDTO.CVC;
 
-            payment.PaymentStatus = "Completed";
+            payment.PaymentStatus = "Confirmed";
             payment.CreatedAt = DateTime.UtcNow;
 
             await _paymentsCollection.InsertOneAsync(payment);
-            await _pubSubService.PublishPostAsync(payment.UserId, payment.TitleId, payment.Id);
+            await _pubSubService.PublishPostAsync(payment.Id);
             return paymentDTO;
         }
 
