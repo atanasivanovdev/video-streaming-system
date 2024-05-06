@@ -9,7 +9,6 @@ builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("Database"));
 
 builder.Services.AddSingleton<OrderManagementService>();
-builder.Services.AddSingleton<PubSubService>();
 builder.Services.AddHostedService<PubSubHostedService>();
 
 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", builder.Configuration["Authentication:Google:CredentialsFilePath"]);

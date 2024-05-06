@@ -62,6 +62,18 @@
           "Port": 5299
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/inbox/{everything}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/inbox/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5208
+        }
+      ]
     }
   ]
 }

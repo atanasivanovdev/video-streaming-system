@@ -23,9 +23,9 @@ namespace WebApp.Pages
 
 		protected override async Task OnInitializedAsync()
         {
-            UserIdResult userIdResult = await AuthService.GetUserId();
-            if (!userIdResult.Successful) return;
-            userId = userIdResult.UserId;
+            AuthenticationResult authenticationResult = await AuthService.AuthenticateUser();
+            if (!authenticationResult.Successful) return;
+            userId = authenticationResult.AuthenticatedUser.UserId;
 
             Watchlist = await WatchlistService.GetTitleFromWatchlist(userId);
         }

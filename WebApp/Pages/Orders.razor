@@ -26,7 +26,7 @@
                         </div>
                         <div>
                             <img class="align-self-center img-fluid"
-                                 src=@order.ImageURL width="100">
+                                 src="@(!string.IsNullOrWhiteSpace(order.ImageURL) ? order.ImageURL : GetImagePath())" width="100">
                         </div>
                     </div>
                 </div>

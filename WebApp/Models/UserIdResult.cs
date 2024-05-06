@@ -1,7 +1,7 @@
 ﻿namespace WebApp.Models
 {
-    public class UserIdResult : ResultBase
+    public class AuthenticationResult : ResultBase
     {
-        public string UserId { get; set; }
+        public AuthenticatedUser AuthenticatedUser { get; set; }
     }
 }

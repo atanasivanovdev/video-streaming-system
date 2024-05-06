@@ -1,14 +1,12 @@
-﻿using Google.Cloud.PubSub.V1;
-
-namespace OrderService.Services
+﻿namespace CustomerService.Services
 {
     public class PubSubHostedService : BackgroundService
     {
-        private readonly OrderManagementService _orderService;
+        private readonly PubSubService _pubSubService;
 
-        public PubSubHostedService(OrderManagementService orderService)
+        public PubSubHostedService(PubSubService pubSubService)
         {
-            _orderService = orderService;
+            _pubSubService = pubSubService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -17,7 +15,7 @@ namespace OrderService.Services
             {
                 try
                 {
-                    await _orderService.SubscribeAsync(stoppingToken);
+                    await _pubSubService.SubscribeAsync(stoppingToken);
                     await Task.Delay(10000, stoppingToken);
                 }
                 catch (Exception ex)

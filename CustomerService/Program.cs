@@ -12,7 +12,11 @@ builder.Services.AddJwt(builder.Configuration);
 builder.Services.AddTransient<IEncryptor, Encryptor>();
 
 builder.Services.AddSingleton<UserService>();
-// Add services to the container.
+builder.Services.AddSingleton<InboxService>();
+builder.Services.AddSingleton<PubSubService>();
+builder.Services.AddHostedService<PubSubHostedService>();
+
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", builder.Configuration["Authentication:Google:CredentialsFilePath"]);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

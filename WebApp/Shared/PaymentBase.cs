@@ -49,17 +49,17 @@ namespace WebApp.Shared
 
         public async void HandleRegistration()
         {
-            var userIdResult = await AuthService.GetUserId();
+            AuthenticationResult authenticationResult = await AuthService.AuthenticateUser();
             WatchlistModel watchlistModel = new WatchlistModel();
-            if (!userIdResult.Successful)
+            if (!authenticationResult.Successful)
             {
                 errorMessage = "Failed to retrieve user ID.";
                 StateHasChanged();
                 return;
             }
 
-            paymentModel.UserId = userIdResult.UserId;
-            watchlistModel.UserId = userIdResult.UserId;
+            paymentModel.UserId = authenticationResult.AuthenticatedUser.UserId;
+            watchlistModel.UserId = authenticationResult.AuthenticatedUser.UserId;
 
             if (string.IsNullOrEmpty(TitleId))
             {

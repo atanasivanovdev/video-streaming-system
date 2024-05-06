@@ -87,8 +87,8 @@ namespace CustomerService.Controllers
             return Ok(userId);
         }
 
-        [HttpGet("id")]
-        public ActionResult GetUserId()
+        [HttpGet("authenticate")]
+        public async Task<ActionResult> AuthenticateUser()
         {
 
             if (!HttpContext.Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
@@ -108,7 +108,19 @@ namespace CustomerService.Controllers
                 return BadRequest("Token is not valid");
             }
 
-            return Ok(userId);
+            var user = await _userService.GetAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            AuthenticatedUser validatedUser = new AuthenticatedUser
+            {
+                UserId = userId,
+                IsAdmin = user.IsAdmin
+            };
+
+            return Ok(validatedUser);
         }
     }
 }

@@ -1,18 +1,19 @@
-﻿using Google.Cloud.PubSub.V1;
+﻿using CustomerService.Models;
+using Google.Cloud.PubSub.V1;
 
-namespace OrderService.Services
+namespace CustomerService.Services
 {
     public class PubSubService
     {
         private readonly string _subscriptionId;
         private readonly string _projectId;
-        private OrderManagementService _orderService;
+        private InboxService _inboxService;
 
-        public PubSubService(IConfiguration configuration, OrderManagementService orderService)
+        public PubSubService(IConfiguration configuration, InboxService inboxService)
         {
             _subscriptionId = configuration["Authentication:Google:SubscriptionId"];
             _projectId = configuration["Authentication:Google:ProjectId"];
-            _orderService = orderService;
+            _inboxService = inboxService;
         }
 
         public async Task SubscribeAsync(CancellationToken cancellationToken)
@@ -25,11 +26,14 @@ namespace OrderService.Services
                 string textData = message.Data.ToStringUtf8();
                 Console.WriteLine($"Message received: {textData}");
 
-                if (message.Attributes.TryGetValue("PaymentId", out string paymentId))
+                if (message.Attributes.TryGetValue("UserId", out string userId))
                 {
                     try
                     {
-                        await _orderService.CreateOrder(paymentId);
+                        MessageDTO messageDTO = new MessageDTO();
+                        messageDTO.UserId = userId;
+                        messageDTO.Content = textData;
+                        await _inboxService.CreateMessage(messageDTO);
                         return SubscriberClient.Reply.Ack;
                     }
                     catch (Exception ex)

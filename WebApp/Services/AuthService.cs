@@ -64,32 +64,32 @@ namespace WebApp.Services
             return loginResult;
         }
 
-        public async Task<UserIdResult> GetUserId()
+        public async Task<AuthenticationResult> AuthenticateUser()
         {
             var authToken = await _localStorage.GetItemAsync<string>("authToken");
 
-            UserIdResult userIdResult = new UserIdResult();
+            AuthenticationResult authenticationResult = new AuthenticationResult();
 
             if (string.IsNullOrEmpty(authToken))
             {
-                userIdResult.Successful = false;
-                userIdResult.Error = "No authentication token found.";
+                authenticationResult.Successful = false;
+                authenticationResult.Error = "No authentication token found.";
             }
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
-            var response = await _httpClient.GetAsync("gateway/user/id");
-            userIdResult.Successful = response.IsSuccessStatusCode;
+            var response = await _httpClient.GetAsync("gateway/user/authenticate");
+            authenticationResult.Successful = response.IsSuccessStatusCode;
 
-            if (!userIdResult.Successful)
+            if (!authenticationResult.Successful)
             {
-                userIdResult.Error = await response.Content.ReadAsStringAsync();
+                authenticationResult.Error = await response.Content.ReadAsStringAsync();
             }
 
-            var userId = await response.Content.ReadAsStringAsync();
-            userIdResult.UserId = userId;
+            var authenticatedUser = await response.Content.ReadFromJsonAsync<AuthenticatedUser>();
+            authenticationResult.AuthenticatedUser = authenticatedUser;
 
-            return userIdResult;
+            return authenticationResult;
         }
 
         public async Task Logout()
