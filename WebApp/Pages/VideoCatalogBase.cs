@@ -83,11 +83,11 @@ namespace WebApp.Pages
             StateHasChanged();
         }
 
-        public async void OnPublishUpcoming(string titleId, string title)
+        public async void OnPublishUpcoming(string title)
         {
             UpcomingVideo upcomingVideo = new UpcomingVideo();
-            upcomingVideo.TitleId = titleId;
             upcomingVideo.Title = title;
+            upcomingVideo.Genre = selectedGenre;
 
             var result = await InboxService.PublishUpcoming(upcomingVideo);
             if (!result.Successful) return;
@@ -95,7 +95,7 @@ namespace WebApp.Pages
             StateHasChanged();
         }
 
-        public bool isAddedToWatchlist(string titleId)
+        public bool IsAddedToWatchlist(string titleId)
         {
             return addedToWatchlist.Any(video => video.Id == titleId);
         }

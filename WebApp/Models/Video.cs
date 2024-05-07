@@ -6,6 +6,7 @@
         public string Title { get; set; }
         public string ImageURL { get; set; }
         public int ReleaseYear { get; set; }
+        public List<string> Genres { get; set; }
         public double Price { get; set; } = 9.99;
     }
 }

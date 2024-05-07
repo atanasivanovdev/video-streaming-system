@@ -38,11 +38,11 @@
                                 <span class="d-inline-block"><b>Price:</b> 10 €</span>
                             </p>
                             <button type="button" class="btn btn-success me-2" @onclick="() => SelectVideoForPayment(video.Id, video.Price)" data-bs-target="#paymentForm" data-bs-toggle="modal">Buy</button>
-                            <button type="button" class="btn btn-warning me-2" disabled="@isAddedToWatchlist(video.Id)" @onclick='() => OnAddToWatchlist(video.Id)'>Watchlist</button>
+                            <button type="button" class="btn btn-warning me-2" disabled="@IsAddedToWatchlist(video.Id)" @onclick='() => OnAddToWatchlist(video.Id)'>Watchlist</button>
 
                             @if (isAdmin)
                             {
-                                <button type="button" class="btn btn-primary" @onclick='() => OnPublishUpcoming(video.Id, video.Title)'>Upcoming</button>
+                                <button type="button" class="btn btn-primary" @onclick='() => OnPublishUpcoming(video.Title)'>Upcoming</button>
                             }
                         </div>
                     </div>

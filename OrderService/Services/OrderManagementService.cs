@@ -42,7 +42,25 @@ namespace OrderService.Services
             _topicId = configuration["Authentication:Google:TopicId"];
         }
 
-        private async Task PublishPostAsync(string userId, string title)
+        public async Task<List<string>> FindUsersByGenreAsync(string genre)
+        {
+            var filter = Builders<Order>.Filter.AnyEq(o => o.Genres, genre);
+            var orders = await _ordersCollection.Find(filter).ToListAsync();
+
+            List<string> userIds = new List<string>();
+
+            foreach (var order in orders)
+            {
+                if (!userIds.Contains(order.UserId))
+                {
+                    userIds.Add(order.UserId);
+                }
+            }
+
+            return userIds;
+        }
+
+        private async Task PublishPostAsync(string userId, string newMessage)
         {
             TopicName topicName = TopicName.FromProjectTopic(_projectId, _topicId);
             PublisherClient publisher = await PublisherClient.CreateAsync(topicName);
@@ -51,7 +69,7 @@ namespace OrderService.Services
             {
                 PubsubMessage message = new PubsubMessage
                 {
-                    Data = ByteString.CopyFromUtf8($"Your order for the video '{title}' has been successfully completed!"),
+                    Data = ByteString.CopyFromUtf8(newMessage),
                     Attributes =
                     {
                         { "UserId", userId }
@@ -88,7 +106,9 @@ namespace OrderService.Services
             }
 
             await _ordersCollection.InsertOneAsync(order);
-            await PublishPostAsync(order.UserId, order.Title);
+
+            var message = $"Your order for the video '{order.Title}' has been successfully completed!";
+            await PublishPostAsync(order.UserId, message);
         }
 
         private async Task<bool> FetchPaymentDetails(Order order, string paymentId)
@@ -179,6 +199,49 @@ namespace OrderService.Services
                 }
 
                 return SubscriberClient.Reply.Ack;
+            });
+
+            Console.WriteLine("Listening for messages...");
+            await Task.Delay(Timeout.Infinite, cancellationToken);
+        }
+
+        public async Task SubscribeUpcomingAsync(CancellationToken cancellationToken)
+        {
+            SubscriptionName subscriptionName = SubscriptionName.FromProjectSubscription(_projectId, _subscriptionUpcomingId);
+            SubscriberClient subscriber = await SubscriberClient.CreateAsync(subscriptionName);
+
+            await subscriber.StartAsync(async (PubsubMessage message, CancellationToken cancel) =>
+            {
+                string textData = message.Data.ToStringUtf8();
+                Console.WriteLine($"Message received: {textData}");
+
+                message.Attributes.TryGetValue("Genre", out string genre);
+
+                if (!string.IsNullOrEmpty(genre))
+                {
+                    try
+                    {
+                        List<string> users = await FindUsersByGenreAsync(genre);
+                        var newMessage = $"{textData} We noticed that this video has the same genre as other videos in your orders..";
+
+                        foreach (string userId in users)
+                        {
+                            await PublishPostAsync(userId, newMessage);
+                        }
+
+                        return SubscriberClient.Reply.Ack;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error processing message: {ex.Message}");
+                        return SubscriberClient.Reply.Nack;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Necessary attributes not found or incomplete data.");
+                    return SubscriberClient.Reply.Nack;
+                }
             });
 
             Console.WriteLine("Listening for messages...");

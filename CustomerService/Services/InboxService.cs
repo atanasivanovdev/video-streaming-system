@@ -56,8 +56,7 @@ namespace CustomerService.Services
                     Data = ByteString.CopyFromUtf8($"A new video with Title: {upcomingVideo.Title} is about to be released!"),
                     Attributes =
                     {
-                        { "TitleId", upcomingVideo.TitleId },
-                        { "Title", upcomingVideo.Title }
+                        { "Genre", upcomingVideo.Genre },
                     }
                 };
 
