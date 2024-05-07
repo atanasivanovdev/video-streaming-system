@@ -24,6 +24,9 @@ namespace OrderService.Models
         [BsonElement("title")]
         public string Title { get; set; }
 
+        [BsonElement("genres")]
+        public List<string> Genres { get; set; }
+
         [BsonElement("imageUrl")]
         public string ImageURL { get; set; }
 

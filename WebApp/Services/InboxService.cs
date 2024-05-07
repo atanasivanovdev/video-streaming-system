@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using CustomerService.Models;
+using System.Net.Http.Json;
 using WebApp.Models;
 
 namespace WebApp.Services
@@ -28,6 +29,24 @@ namespace WebApp.Services
             }
 
             inboxResult.Messages = await result.Content.ReadFromJsonAsync<List<Message>>();
+
+            return inboxResult;
+        }
+
+        public async Task<InboxResult> PublishUpcoming(UpcomingVideo upcomingVideo)
+        {
+            var result = await _httpClient.PostAsJsonAsync($"gateway/inbox/upcoming", upcomingVideo);
+
+            InboxResult inboxResult = new InboxResult();
+
+            inboxResult.Successful = result.IsSuccessStatusCode;
+
+            if (!inboxResult.Successful)
+            {
+                var error = await result.Content.ReadAsStringAsync();
+                inboxResult.Error = error;
+                return inboxResult;
+            }
 
             return inboxResult;
         }

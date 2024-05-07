@@ -29,16 +29,21 @@
             <div class="d-flex justify-content-center flex-wrap g-4">
                 @foreach (var video in VideoCatalog.VideoCatalog)
                 {
-                    <div class="card m-3" style="width: 250px;">
-                        <img src="@(!string.IsNullOrWhiteSpace(video.ImageURL) ? video.ImageURL : GetImagePath())" class="card-img-top" alt="Video thumbnail" style="width: 250px; height: 250px;">
-                        <div class="card-body">
+                    <div class="card m-3" style="width: 300px;">
+                        <img src="@(!string.IsNullOrWhiteSpace(video.ImageURL) ? video.ImageURL : GetImagePath())" class="card-img-top" alt="Video thumbnail" style="width: 300px; height: 250px;">
+                        <div class="card-body" style="min-width: 300px">
                             <h5 class="card-title text-nowrap text-truncate">@video.Title</h5>
-                            <p class="card-text">
+                            <p class="card-text d-flex flex-column">
                                 <span class="d-inline-block"><b>Release Year:</b> @video.ReleaseYear</span>
                                 <span class="d-inline-block"><b>Price:</b> 10 €</span>
                             </p>
                             <button type="button" class="btn btn-success me-2" @onclick="() => SelectVideoForPayment(video.Id, video.Price)" data-bs-target="#paymentForm" data-bs-toggle="modal">Buy</button>
-                            <button type="button" class="btn btn-warning" disabled="@isAddedToWatchlist(video.Id)" @onclick='() => OnAddToWatchlist(video.Id)'>Add Watchlist</button>
+                            <button type="button" class="btn btn-warning me-2" disabled="@isAddedToWatchlist(video.Id)" @onclick='() => OnAddToWatchlist(video.Id)'>Watchlist</button>
+
+                            @if (isAdmin)
+                            {
+                                <button type="button" class="btn btn-primary" @onclick='() => OnPublishUpcoming(video.Id, video.Title)'>Upcoming</button>
+                            }
                         </div>
                     </div>
                 }

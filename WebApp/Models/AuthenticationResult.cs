@@ -2,6 +2,6 @@
 {
     public class AuthenticationResult : ResultBase
     {
-        public AuthenticatedUser AuthenticatedUser { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

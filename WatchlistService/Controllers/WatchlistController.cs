@@ -33,7 +33,7 @@ namespace WatchlistService.Controllers
 
         // GET api/watchlist/{userId}
         [HttpGet("{userId}")]
-        public async Task<ActionResult<List<string>>> GetWatchlist(string userId)
+        public async Task<IActionResult> GetWatchlist(string userId)
         {
             try
             {

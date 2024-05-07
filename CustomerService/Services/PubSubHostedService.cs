@@ -2,11 +2,11 @@
 {
     public class PubSubHostedService : BackgroundService
     {
-        private readonly PubSubService _pubSubService;
+        private readonly InboxService _inboxService;
 
-        public PubSubHostedService(PubSubService pubSubService)
+        public PubSubHostedService(InboxService inboxService)
         {
-            _pubSubService = pubSubService;
+            _inboxService = inboxService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -15,7 +15,7 @@
             {
                 try
                 {
-                    await _pubSubService.SubscribeAsync(stoppingToken);
+                    await _inboxService.SubscribeAsync(stoppingToken);
                     await Task.Delay(10000, stoppingToken);
                 }
                 catch (Exception ex)

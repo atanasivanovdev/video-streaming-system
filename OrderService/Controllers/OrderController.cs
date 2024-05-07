@@ -30,6 +30,7 @@ namespace OrderService.Controllers
                         PlacedOn = order.PlacedOn,
                         Title = order.Title,
                         ImageURL = order.ImageURL,
+                        Genres = order.Genres,
                         Amount = order.Amount,
                         Status = order.Status,
                         LastCardDigits = order.LastCardDigits,

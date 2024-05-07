@@ -64,7 +64,7 @@ namespace WebApp.Services
             return loginResult;
         }
 
-        public async Task<AuthenticationResult> AuthenticateUser()
+        public async Task<AuthenticationResult> AuthenticateAdmin()
         {
             var authToken = await _localStorage.GetItemAsync<string>("authToken");
 
@@ -86,10 +86,18 @@ namespace WebApp.Services
                 authenticationResult.Error = await response.Content.ReadAsStringAsync();
             }
 
-            var authenticatedUser = await response.Content.ReadFromJsonAsync<AuthenticatedUser>();
-            authenticationResult.AuthenticatedUser = authenticatedUser;
+            var authenticatedUser = await response.Content.ReadFromJsonAsync<bool>();
+            authenticationResult.IsAdmin = authenticatedUser;
 
             return authenticationResult;
+        }
+
+        public async Task<string?> GetUserId()
+        {
+            var userState = await ((ApiAuthenticationStateProvider)_authenticationStateProvider).GetAuthenticationStateAsync();
+            var userId = userState.User.FindFirst(c => c.Type.Equals("userId"))?.Value;
+
+            return userId;
         }
 
         public async Task Logout()

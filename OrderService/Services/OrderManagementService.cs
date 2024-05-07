@@ -15,7 +15,8 @@ namespace OrderService.Services
         private readonly RestClient _paymentClient;
         private readonly RestClient _videoClient;
         private readonly string _projectId;
-        private readonly string _subscriptionId;
+        private readonly string _subscriptionPaymentsId;
+        private readonly string _subscriptionUpcomingId;
         private readonly string _topicId;
 
         public OrderManagementService(IOptions<DatabaseSettings> databaseSettings, IConfiguration configuration)
@@ -35,7 +36,8 @@ namespace OrderService.Services
             _videoClient = new RestClient(configuration["ExternalAPI:VideoCatalogURL"]);
 
             // Pub/Sub Settings
-            _subscriptionId = configuration["Authentication:Google:SubscriptionId"];
+            _subscriptionPaymentsId = configuration["Authentication:Google:SubscriptionPaymentsId"];
+            _subscriptionUpcomingId = configuration["Authentication:Google:SubscriptionUpcomingId"];
             _projectId = configuration["Authentication:Google:ProjectId"];
             _topicId = configuration["Authentication:Google:TopicId"];
         }
@@ -73,15 +75,39 @@ namespace OrderService.Services
         {
             Order order = new Order();
 
+            bool isPaymentDetailsFetched = await FetchPaymentDetails(order, paymentId);
+            if (!isPaymentDetailsFetched)
+            {
+                return;
+            }
+
+            bool isVideoDetailsFetched = await FetchVideoDetails(order);
+            if (!isVideoDetailsFetched)
+            {
+                return;
+            }
+
+            await _ordersCollection.InsertOneAsync(order);
+            await PublishPostAsync(order.UserId, order.Title);
+        }
+
+        private async Task<bool> FetchPaymentDetails(Order order, string paymentId)
+        {
             var paymentRequest = new RestRequest($"api/payment/{paymentId}", Method.Get);
             var paymentResponse = await _paymentClient.GetAsync(paymentRequest);
             if (paymentResponse == null)
             {
                 Console.WriteLine("Failed to retrieve payment details.");
-                return;
+                return false;
             }
 
             var jsonPayment = JsonConvert.DeserializeObject<JObject>(paymentResponse.Content);
+            if (jsonPayment == null)
+            {
+                Console.WriteLine("Payment details are not in a correct format.");
+                return false;
+            }
+
             order.PaymentId = paymentId;
             order.Amount = jsonPayment["amount"].Value<double>();
             order.CardExpiration = jsonPayment["expirationDate"].Value<string>();
@@ -94,20 +120,33 @@ namespace OrderService.Services
             order.UserId = jsonPayment["userId"].Value<string>();
             order.TitleId = jsonPayment["titleId"].Value<string>();
 
+            return true;
+        }
+
+        private async Task<bool> FetchVideoDetails(Order order)
+        {
             var videoRequest = new RestRequest($"api/video/titles/{order.TitleId}", Method.Get);
             var videoResponse = await _videoClient.GetAsync(videoRequest);
             if (videoResponse == null)
             {
                 Console.WriteLine("Failed to retrieve video details.");
-                return;
+                return false;
             }
 
-            var jsonVideo = JsonConvert.DeserializeObject<JObject>(videoResponse.Content);
-            order.Title = jsonVideo["title"].Value<string>();
-            order.ImageURL = jsonVideo["imageURL"].Value<string>();
+            var videos = JsonConvert.DeserializeObject<List<JObject>>(videoResponse.Content);
+            var video = videos.FirstOrDefault();
+            if (video == null)
+            {
+                Console.WriteLine("No video found with the given title ID.");
+                return false;
+            }
 
-            await _ordersCollection.InsertOneAsync(order);
-            await PublishPostAsync(order.UserId, order.Title);
+            order.Title = video["title"].Value<string>();
+            order.ImageURL = video["imageURL"].Value<string>();
+            var genres = video["genres"] as JArray;
+            order.Genres = genres?.ToObject<List<string>>() ?? new List<string>();
+
+            return true;
         }
 
         public async Task<List<Order>> GetOrdersByUserId(string userId)
@@ -115,9 +154,9 @@ namespace OrderService.Services
             return await _ordersCollection.Find(order => order.UserId == userId).ToListAsync();
         }
 
-        public async Task SubscribeAsync(CancellationToken cancellationToken)
+        public async Task SubscribePaymentsAsync(CancellationToken cancellationToken)
         {
-            SubscriptionName subscriptionName = SubscriptionName.FromProjectSubscription(_projectId, _subscriptionId);
+            SubscriptionName subscriptionName = SubscriptionName.FromProjectSubscription(_projectId, _subscriptionPaymentsId);
             SubscriberClient subscriber = await SubscriberClient.CreateAsync(subscriptionName);
 
             await subscriber.StartAsync(async (PubsubMessage message, CancellationToken cancel) =>

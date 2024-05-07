@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using CustomerService.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Collections;
 using WebApp.Models;
@@ -8,6 +9,9 @@ namespace WebApp.Pages
 {
     public class VideoCatalogBase: ComponentBase
     {
+        [Inject]
+        public IInboxService InboxService { get; set; }
+
         [Inject]
         public IVideoCatalogService VideoCatalogService { get; set; }
 
@@ -24,6 +28,7 @@ namespace WebApp.Pages
         private string selectedGenre = "";
         private List<Video> addedToWatchlist = new List<Video>();
         private string userId = "";
+        public bool isAdmin = false;
 
         public VideoCatalogResult VideoCatalog { get; set; }
         public WatchlistResult Watchlist { get; set; } = new WatchlistResult();
@@ -36,9 +41,13 @@ namespace WebApp.Pages
         protected override async Task OnInitializedAsync()
         {
             Genres = await VideoCatalogService.GetGenres();
-            AuthenticationResult authenticationResult = await AuthService.AuthenticateUser();
+
+            AuthenticationResult authenticationResult = await AuthService.AuthenticateAdmin();
             if (!authenticationResult.Successful) return;
-            userId = authenticationResult.AuthenticatedUser.UserId;
+            isAdmin = authenticationResult.IsAdmin;
+
+            userId = await AuthService.GetUserId();
+            if (userId == null) return;
 
             WatchlistResult watchlistResult = await WatchlistService.GetTitleFromWatchlist(userId);
             addedToWatchlist = watchlistResult.Watchlist;
@@ -71,6 +80,18 @@ namespace WebApp.Pages
             Watchlist = await WatchlistService.AddTitleToWatchlist(watchlistModel);
             WatchlistResult watchlistResult = await WatchlistService.GetTitleFromWatchlist(userId);
             addedToWatchlist = watchlistResult.Watchlist;
+            StateHasChanged();
+        }
+
+        public async void OnPublishUpcoming(string titleId, string title)
+        {
+            UpcomingVideo upcomingVideo = new UpcomingVideo();
+            upcomingVideo.TitleId = titleId;
+            upcomingVideo.Title = title;
+
+            var result = await InboxService.PublishUpcoming(upcomingVideo);
+            if (!result.Successful) return;
+
             StateHasChanged();
         }
 

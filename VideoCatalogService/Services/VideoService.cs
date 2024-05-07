@@ -46,6 +46,7 @@ namespace VideoCatalogService.Services
 			var request = new RestRequest("titles", Method.Get);
 			request.AddParameter("genre", genre);
 			request.AddParameter("titleType", titleType);
+            request.AddParameter("info", "base_info");
 
 			var response = await _client.GetAsync(request);
 
@@ -63,9 +64,11 @@ namespace VideoCatalogService.Services
 			return videos;
 		}
 
-        public async Task<Video> GetTitle(string titleId)
+        public async Task<List<Video>> GetTitlesByIds(string titleIds)
         {
-            var request = new RestRequest($"titles/{titleId}", Method.Get);
+            var request = new RestRequest($"titles/x/titles-by-ids", Method.Get);
+            request.AddParameter("idsList", titleIds);
+            request.AddParameter("info", "base_info");
 
             var response = await _client.GetAsync(request);
 
@@ -74,23 +77,25 @@ namespace VideoCatalogService.Services
                 return null!;
             }
 
-            var jsonObject = JsonConvert.DeserializeObject<JObject>(response.Content);
-            var resultsElement = jsonObject["results"];
-            var video = ParseVideo(resultsElement);
-            return video;
+            if (string.IsNullOrEmpty(response.Content))
+            {
+                return new List<Video>();
+            }
+
+            var videos = ParseVideosFromJson(response.Content);
+            return videos;
         }
 
         private List<Video> ParseVideosFromJson(string jsonContent)
 		{
             var jsonObject = JsonConvert.DeserializeObject<JObject>(jsonContent);
 
-            // Check if the JSON is for a single video or multiple videos
             var resultsElement = jsonObject["results"];
             JToken elements = resultsElement;
 
             List<Video> videos = new List<Video>();
 
-            if (elements is JArray) // Multiple videos
+            if (elements is JArray) 
             {
                 foreach (JToken element in elements)
                 {
@@ -116,15 +121,33 @@ namespace VideoCatalogService.Services
             var title = element["titleText"].HasValues ? (string)element["titleText"]["text"] : "";
             var imageUrl = element["primaryImage"].HasValues ? (string)element["primaryImage"]["url"] : "";
             var releaseYear = element["releaseYear"].HasValues ? (int)element["releaseYear"]["year"] : 0;
+            var genres = ParseGenres(element);
 
             return new Video
             {
                 Id = id,
                 Title = title,
                 ImageURL = imageUrl ?? string.Empty,
-                ReleaseYear = releaseYear
+                ReleaseYear = releaseYear,
+                Genres = genres,
             };
         }
 
+        private List<string> ParseGenres(JToken element)
+        {
+            var genresList = new List<string>();
+
+            if (element["genres"].HasValues)
+            {
+                var genres = element["genres"]["genres"];
+                foreach (var genre in genres)
+                {
+                    var genreId = genre["id"].ToString();
+                    genresList.Add(genreId);
+                }
+            }
+            
+            return genresList;
+        }
     }
 }

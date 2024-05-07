@@ -13,7 +13,6 @@ builder.Services.AddTransient<IEncryptor, Encryptor>();
 
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<InboxService>();
-builder.Services.AddSingleton<PubSubService>();
 builder.Services.AddHostedService<PubSubHostedService>();
 
 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", builder.Configuration["Authentication:Google:CredentialsFilePath"]);

@@ -7,6 +7,7 @@ namespace WebApp.Services
         Task<LoginResult> Login(LoginModel loginModel);
         Task Logout();
         Task<RegisterResult> Register(RegisterModel registerModel);
-        Task<AuthenticationResult> AuthenticateUser();
+        Task<AuthenticationResult> AuthenticateAdmin();
+        Task<string?> GetUserId();
     }
 }

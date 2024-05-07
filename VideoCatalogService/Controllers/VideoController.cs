@@ -64,19 +64,19 @@ namespace VideoCatalogService.Controllers
             }
         }
 
-        [HttpGet("titles/{titleId}")]
-        public async Task<ActionResult<Video>> GetTitle(string titleId)
+        [HttpGet("titles/{titleIds}")]
+        public async Task<ActionResult<List<Video>>> GetTitlesByIds(string titleIds)
         {
             try
             {
-                var video = await _videoService.GetTitle(titleId);
+                var videos = await _videoService.GetTitlesByIds(titleIds);
 
-                if (video == null)
+                if (videos == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(video);
+                return Ok(videos);
             }
             catch (Exception ex)
             {

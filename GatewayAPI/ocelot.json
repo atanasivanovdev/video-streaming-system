@@ -65,7 +65,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/inbox/{everything}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [ "Get", "Post" ],
       "DownstreamPathTemplate": "/api/inbox/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

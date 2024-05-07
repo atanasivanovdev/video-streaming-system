@@ -11,6 +11,8 @@ namespace OrderService.Models
 
         public string ImageURL { get; set; }
 
+        public List<string> Genres { get; set; }
+
         public double Amount { get; set; }
 
         public string Status { get; set; }

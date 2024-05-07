@@ -88,7 +88,7 @@ namespace CustomerService.Controllers
         }
 
         [HttpGet("authenticate")]
-        public async Task<ActionResult> AuthenticateUser()
+        public async Task<ActionResult> AuthenticateAdmin()
         {
 
             if (!HttpContext.Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
@@ -114,13 +114,7 @@ namespace CustomerService.Controllers
                 return NotFound("User not found");
             }
 
-            AuthenticatedUser validatedUser = new AuthenticatedUser
-            {
-                UserId = userId,
-                IsAdmin = user.IsAdmin
-            };
-
-            return Ok(validatedUser);
+            return Ok(user.IsAdmin);
         }
     }
 }

@@ -28,5 +28,19 @@ namespace CustomerService.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpPost("upcoming")]
+        public async Task<IActionResult> PublishUpcoming([FromBody] UpcomingVideo upcomingVideo)
+        {
+            try
+            {
+                await _inboxService.PublishUpcomingAsync(upcomingVideo);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
