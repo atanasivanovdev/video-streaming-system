@@ -116,5 +116,25 @@ namespace CustomerService.Controllers
 
             return Ok(user.IsAdmin);
         }
+
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult> GetUser(string userId)
+        {
+            User user = await _userService.GetAsync(userId);
+            if(user == null)
+            {
+                return NotFound($"No user found with the ID '{userId}'.");
+            }
+
+            UserDTO userDTO = new UserDTO
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+            };
+
+            return Ok(userDTO);
+        }
     }
 }

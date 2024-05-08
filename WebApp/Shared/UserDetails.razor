@@ -1,0 +1,55 @@
+﻿@using WebApp.Services
+@using WebApp.Models
+@inject IAuthService AuthService
+
+<div class="modal fade" id="userDetails" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">User Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if(user != null)
+                {
+                    <div class="form-group row">
+                        <label for="staticFirstName" class="col-sm-3 col-form-label fw-bold">First Name:</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control-plaintext" id="staticFirstName" value=@user.FirstName>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticLastName" class="col-sm-3 col-form-label fw-bold">Last Name:</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control-plaintext" id="staticLastName" value=@user.LastName>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label fw-bold">Email:</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value=@user.Email>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" style="width: 50px; height: 50px;" role="status" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public User user = null;
+    protected override async Task OnInitializedAsync()
+    {
+        var userId = await AuthService.GetUserId();
+        if (userId == null) return;
+
+        var userResult = await AuthService.GetUser(userId);
+        user = userResult.User;
+    }
+}

@@ -9,5 +9,6 @@ namespace WebApp.Services
         Task<RegisterResult> Register(RegisterModel registerModel);
         Task<AuthenticationResult> AuthenticateAdmin();
         Task<string?> GetUserId();
+        Task<UserResult> GetUser(string userId);
     }
 }

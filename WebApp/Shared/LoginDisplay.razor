@@ -1,6 +1,10 @@
 ﻿<AuthorizeView>
     <Authorized>
+        <button type="button" class="btn btn-outline-primary btn-floating" data-bs-target="#userDetails" data-bs-toggle="modal" >
+            <i class="oi oi-person"></i>
+        </button>
         <a href="LogOut">Log Out</a>
+        <UserDetails/>
     </Authorized>
     <NotAuthorized>
         <a href="Register">Register</a>

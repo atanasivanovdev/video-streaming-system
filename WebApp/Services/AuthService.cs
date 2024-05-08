@@ -100,6 +100,24 @@ namespace WebApp.Services
             return userId;
         }
 
+        public async Task<UserResult> GetUser(string userId)
+        {
+            var result = await _httpClient.GetAsync($"gateway/user/{userId}");
+            UserResult userResult = new UserResult();
+
+            userResult.Successful = result.IsSuccessStatusCode;
+
+            if (!userResult.Successful)
+            {
+                userResult.Error = await result.Content.ReadAsStringAsync();
+                return userResult;
+            }
+
+            userResult.User = await result.Content.ReadFromJsonAsync<User>();
+
+            return userResult;
+        }
+
         public async Task Logout()
         {
             await _localStorage.RemoveItemAsync("authToken");
