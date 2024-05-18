@@ -26,11 +26,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(policy => policy.WithOrigins("http://localhost:5162", "https://localhost:7297")
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-);
-
 app.UseAuthorization();
 
 app.MapControllers();

@@ -124,7 +124,7 @@ namespace OrderService.Services
             var jsonPayment = JsonConvert.DeserializeObject<JObject>(paymentResponse.Content);
             if (jsonPayment == null)
             {
-                Console.WriteLine("Payment details are not in a correct format.");
+                Console.WriteLine("Payment details are not in the correct format.");
                 return false;
             }
 

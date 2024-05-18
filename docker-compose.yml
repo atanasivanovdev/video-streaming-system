@@ -1,0 +1,67 @@
+version: '3'
+services:
+  customer-service:
+    image: video-streaming-system/customer-service
+    container_name: customer-service
+    hostname: customer-service
+    networks:
+      - video_steaming_network
+    expose:
+      - "80"
+
+  watchlist-service:
+    image: video-streaming-system/watchlist-service
+    container_name: watchlist-service
+    hostname: watchlist-service
+    networks:
+      - video_steaming_network
+    expose:
+      - "80"
+
+  videocatalog-service:
+    image: video-streaming-system/videocatalog-service
+    container_name: videocatalog-service
+    hostname: videocatalog-service
+    networks:
+      - video_steaming_network
+    expose:
+      - "80"
+
+  order-service:
+    image: video-streaming-system/order-service
+    container_name: order-service
+    hostname: order-service
+    networks:
+      - video_steaming_network
+    expose:
+      - "80"
+
+  payment-service:
+    image: video-streaming-system/payment-service
+    container_name: payment-service
+    hostname: payment-service
+    networks:
+      - video_steaming_network
+    expose:
+      - "80"
+
+  api-gateway:
+    image: video-streaming-system/gateway-service
+    container_name: api-gateway
+    hostname: api-gateway
+    networks:
+      - video_steaming_network
+    ports:
+      - "8080:80"
+
+  web-app:
+    image: video-streaming-system/webapp
+    container_name: web-app
+    networks:
+      - video_steaming_network
+    ports:
+      - "80:80"
+
+networks:
+  video_steaming_network:
+    driver: bridge

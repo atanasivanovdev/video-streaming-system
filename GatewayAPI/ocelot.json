@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5003"
+    "BaseUrl": "http://localhost:8080"
   },
   "Routes": [
     {
@@ -9,6 +9,10 @@
       "DownstreamPathTemplate": "/api/video/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "videocatalog-service",
+        //  "Port": 80
+        //},
         {
           "Host": "localhost",
           "Port": 5141
@@ -21,6 +25,10 @@
       "DownstreamPathTemplate": "/api/user/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "customer-service",
+        //  "Port": 80
+        //},
         {
           "Host": "localhost",
           "Port": 5208
@@ -33,6 +41,10 @@
       "DownstreamPathTemplate": "/api/watchlist/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "watchlist-service",
+        //  "Port": 80
+        //},
         {
           "Host": "localhost",
           "Port": 5173
@@ -45,6 +57,10 @@
       "DownstreamPathTemplate": "/api/payment/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "payment-service",
+        //  "Port": 80
+        //},
         {
           "Host": "localhost",
           "Port": 5193
@@ -57,6 +73,10 @@
       "DownstreamPathTemplate": "/api/order/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "order-service",
+        //  "Port": 80
+        //},
         {
           "Host": "localhost",
           "Port": 5299
@@ -69,6 +89,10 @@
       "DownstreamPathTemplate": "/api/inbox/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "customer-service",
+        //  "Port": 80
+        //},
         {
           "Host": "localhost",
           "Port": 5208
