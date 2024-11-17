@@ -8,7 +8,8 @@ using WebApp.Services;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-var apiBaseAddress = Environment.GetEnvironmentVariable("API_BASE_ADDRESS") ?? "http://localhost:8080";
+var configuration = builder.Configuration;
+var apiBaseAddress = configuration["ApiBaseAddress"] ?? "http://localhost:8080";
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseAddress) });
 builder.Services.AddBlazoredLocalStorage();

@@ -5,97 +5,73 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/gateway/video/{everything}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/video/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
-        //{
-        //  "Host": "videocatalog-service",
-        //  "Port": 80
-        //},
         {
-          "Host": "localhost",
-          "Port": 5141
+          "Host": "videocatalog-service",
+          "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/gateway/user/{everything}",
-      "UpstreamHttpMethod": [ "Post", "Get" ],
+      "UpstreamHttpMethod": ["Post", "Get"],
       "DownstreamPathTemplate": "/api/user/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
-        //{
-        //  "Host": "customer-service",
-        //  "Port": 80
-        //},
         {
-          "Host": "localhost",
-          "Port": 5208
+          "Host": "customer-service",
+          "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/gateway/watchlist/{everything}",
-      "UpstreamHttpMethod": [ "Post", "Get", "Delete" ],
+      "UpstreamHttpMethod": ["Post", "Get", "Delete"],
       "DownstreamPathTemplate": "/api/watchlist/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
-        //{
-        //  "Host": "watchlist-service",
-        //  "Port": 80
-        //},
         {
-          "Host": "localhost",
-          "Port": 5173
+          "Host": "watchlist-service",
+          "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/gateway/payment/{everything}",
-      "UpstreamHttpMethod": [ "Post", "Get" ],
+      "UpstreamHttpMethod": ["Post", "Get"],
       "DownstreamPathTemplate": "/api/payment/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
-        //{
-        //  "Host": "payment-service",
-        //  "Port": 80
-        //},
         {
-          "Host": "localhost",
-          "Port": 5193
+          "Host": "payment-service",
+          "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/gateway/order/{everything}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/order/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
-        //{
-        //  "Host": "order-service",
-        //  "Port": 80
-        //},
         {
-          "Host": "localhost",
-          "Port": 5299
+          "Host": "order-service",
+          "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/gateway/inbox/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamHttpMethod": ["Get", "Post"],
       "DownstreamPathTemplate": "/api/inbox/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
-        //{
-        //  "Host": "customer-service",
-        //  "Port": 80
-        //},
         {
-          "Host": "localhost",
-          "Port": 5208
+          "Host": "customer-service",
+          "Port": 80
         }
       ]
     }
