@@ -6,31 +6,35 @@ A modern Video Streaming System designed to handle the management and playback o
 
 ### Microservices
 
-#### Customer Service
+1. **Customer Service**
 
-- User registration and login.
-- View and manage user account details and notifications.
+   - User registration and login.
+   - View and manage user account details and notifications.
 
-#### Payment Service
+2. **Payment Service**
 
-- Handle payments and maintain an audit trail of transactions.
+   - Handle payments and maintain an audit trail of transactions.
 
-#### Order Service
+3. **Order Service**
 
-- Manage video orders and provide past order details.
+   - Manage video orders and provide past order details.
 
-#### Video Catalogue Service
+4. **Video Catalogue Service**
 
-- Fetch movie and TV show details from third-party APIs in real-time.
+   - Fetch movie and TV show details from third-party APIs in real-time.
 
-#### Watchlist Service
+5. **Watchlist Service**
 
-- Manage the user's watchlist for Movies and TV Shows.
+   - Manage the user's watchlist for Movies and TV Shows.
 
 ### Event-Driven Architecture
 
 - Trigger notifications for new upcoming videos matching user preferences.
 - Handle purchase order creation upon payment confirmation.
+
+### Architecture Diagram
+
+![Architecture Diagram](docs/video-streaming-architecture.png)
 
 ### Web Application
 
@@ -48,13 +52,13 @@ A modern Video Streaming System designed to handle the management and playback o
 ## Technologies Used
 
 - **Frontend:** Blazor Web Assembly
-- **Backend:** Microservices in C#
+- **Backend:** Microservices built with ASP.NET Core
 - **Database:** MongoDB (Atlas recommended)
 - **Authentication/Authorization:** JWT Tokens
 - **Hosting:** Google Cloud App Engine
 - **Event-driven Architecture:** Pub/Sub mechanisms
 - **External APIs:** [Movies Database API](https://rapidapi.com/SAdrian/api/moviesdatabase)
-  **Containerization:** Docker
+- **Containerization:** Docker
 
 ## Setup Instructions
 
